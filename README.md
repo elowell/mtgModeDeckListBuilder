@@ -25,9 +25,8 @@ Runs on Python 3.6 and requires the following libraries:
 
 **Example commands:**
   - ```python mtgModeDeckListBuilder.py -c "Trostani, Selesnya's Voice" -t "tokens" "Lifegain"```
-  - ```python mtgModeDeckListBuilder.py -c "Muldrotha, the Gravetide" -s "tappedout" -o False```
+  - ```python mtgModeDeckListBuilder.py -c "Muldrotha, the Gravetide" -s "tappedout" -o False``` 
+ 
+**Afterword:**
 
-
-**Afterword:** 
-
-  I hope you enjoy this tool! It was a fun side project for learning about beautiful soup. Please let me know if you have any questions, feedback or comments.
+I hope you enjoy this tool! It was a fun side project for learning about beautiful soup. Please let me know if you have any questions, feedback or comments.
