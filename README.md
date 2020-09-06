@@ -12,5 +12,5 @@ Optional arguments:
   - Overwrite argument: ```-o <True/False>``` -- Use if you don't want to overwrite/truncate existing csv file. Defaults to true. 
 
 Example commands:
-  -```python mtgModeDeckListBuilder.py -c "Trostani, Selesnya's Voice" -t "tokens" "Lifegain"```
-  -```python mtgModeDeckListBuilder.py -c "Muldrotha, the Gravetide" -s "tappedout" -o False```
+  - ```python mtgModeDeckListBuilder.py -c "Trostani, Selesnya's Voice" -t "tokens" "Lifegain"```
+  - ```python mtgModeDeckListBuilder.py -c "Muldrotha, the Gravetide" -s "tappedout" -o False```
