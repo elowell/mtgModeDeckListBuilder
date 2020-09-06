@@ -28,5 +28,6 @@ Runs on Python 3.6 and requires the following libraries:
   - ```python mtgModeDeckListBuilder.py -c "Muldrotha, the Gravetide" -s "tappedout" -o False```
 
 
-**Afterword** 
+**Afterword:** 
+
   I hope you enjoy this tool! It was a fun side project for learning about beautiful soup. Please let me know if you have any questions, feedback or comments.
