@@ -4,7 +4,7 @@
 
 Command line tool for creating "mode" EDH decklist based on top decks for a specific commander. This grabs top decklists for specified commander and returns a csv with sorted list of cards that are used. It also provides information on average number of basic lands run across the decks. Currently only works for tappedout.net, but functionality for archidekt.com and other sites coming soon. This tool is intended to simplify the EDH deck building process and help users build new decks quickly.
 
-**Usage**
+**Usage** 
 Run the executable file from the command line with required arguments (and any optional ones). 
 
 **Required arguments:**
