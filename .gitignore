@@ -1,0 +1,7 @@
+*.whl
+Python/
+Deck*Lists/
+decks/
+setup.py
+__pycache__/
+.idea/
