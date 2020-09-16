@@ -16,7 +16,7 @@ Move the top level executable file (modeDeckListBuilder.exe) to preferred direct
 
 **Optional arguments**
   - Theme argument: ```-t <themes in quotes separated by spaces>``` -- Use this if you want to specify specific themes/hubs. Themed searches create a unique csv file name.
-  - Sites argument: ```-s <sites in quotes separated by spaces>``` -- Use this if you want to specify specific sites. Defaults to all sites available (currently only tappedout)
+  - Sites argument: ```-s <sites in quotes separated by spaces>``` -- Use this if you want to specify specific sites. Defaults to tappedout (Archidekt coming soon)
   - Overwrite argument: ```-o <True/False>``` -- Use if you don't want to overwrite/truncate existing csv file. Defaults to true. 
 
 **Example commands**
