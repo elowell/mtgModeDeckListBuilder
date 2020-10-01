@@ -20,8 +20,8 @@ Move the top level executable file (modeDeckListBuilder.exe) to preferred direct
   - Overwrite argument: ```-o <True/False>``` -- Use if you don't want to overwrite/truncate existing csv file. Defaults to true. 
 
 **Example commands**
-  - ```./mtgModeDeckListBuilder.exe -c "Trostani, Selesnya's Voice" -t "tokens" "Lifegain"```
-  - ```./mtgModeDeckListBuilder.exe -c "Muldrotha, the Gravetide" -s "tappedout" -o False``` 
+  - ```./modeDeckListBuilder.exe -c "Trostani, Selesnya's Voice" -t "tokens" "Lifegain"```
+  - ```./modeDeckListBuilder.exe -c "Muldrotha, the Gravetide" -s "tappedout" -o False``` 
 
 **Requirements for Python Script**
 
