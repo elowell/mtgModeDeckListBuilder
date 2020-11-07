@@ -92,14 +92,14 @@ def get_deck_links(site, commander, decks, titles, themes):
 #         print(str(ex))
 
 # Imports cards from given site and saves them into a dictionary (decks)
-def decklist_import(url, decks, site = "tappedout"):
+def decklist_import(input_url, decks, site = "tappedout", name=""):
     # Check which site
     if site == "tappedout":
         cards = []
         try:
             # Connect via requests
-            copy_url = url+"#embed-modal"
-            r = requests.get(copy_url, verify=True)
+            url = input_url+"#embed-modal"
+            r = requests.get(url, verify=True)
             if r.status_code == 200:
                 # Create soup and find export textarea for deck
                 soup = BS(r.text, features="lxml")
@@ -108,7 +108,7 @@ def decklist_import(url, decks, site = "tappedout"):
                 cards = deck_text.text.split('\n')
                 cards = [card[0:card.rfind('(')] for card in cards]
                 if not cards:
-                    print("No cards found at url %s" % url)
+                    print("No cards found at url %s" % input_url)
                 else:
                     # Finish parsing card count from card name and save to dictionary
                     cards_total = len(cards)
@@ -126,6 +126,10 @@ def decklist_import(url, decks, site = "tappedout"):
     elif site.lower() == "archidekt":
         cards = []
         try:
+            # https://archidekt.com/api/decks/<deckid>/small/
+            url_prefix = "https://archidekt.com/api/decks/"
+            url_suffix = "/small/"
+            url =url_prefix + url +
             options = webdriver.ChromeOptions()
             options.add_argument('--ignore-certificate-errors')
             options.add_argument('--incognito')
@@ -141,7 +145,7 @@ def decklist_import(url, decks, site = "tappedout"):
             cards = deck_text.text.split('\n')
             cards = [card[0:card.rfind('(')] for card in cards]
             if not cards:
-                print("no cards found at url %s" % url)
+                print("no cards found at url %s" % input_url)
             else:
                 cards_total = len(cards)
                 for card_str in cards:
@@ -161,6 +165,7 @@ if __name__ == '__main__':
     # Create Arg Parser and add arguments
     parser = argparse.ArgumentParser(description="Magic the Gathering Commander Mode Decklist Generator\n Commander input (-c) is always required")
     parser.add_argument('-c','--commander', help='Input commander name here with quotes around it. Needs to be accurate', required=True)
+    parser.add_argument('-p','--partner', help='Input partner/companion name here with quotes around it. Needs to be accurate', required = False)
     parser.add_argument('-s','--sites', nargs='*', default=['tappedout'], help='Specific sites to use. Options currently include tappedout. Defaults to only tappedout', required=False)
     parser.add_argument('-t', '--themes', nargs='*', default=[], help='Specify which themes to use in quotes. Multiple themes should be separated by a space. Defaults to all', required=False)
     parser.add_argument('-o','--overwrite', default=True, help = 'Overwrite existing file? True/False. Defaults to True')
@@ -168,6 +173,8 @@ if __name__ == '__main__':
 
     # Create Commander url insert
     commander = args['commander'].replace(',',"")
+    # Create Partner url insert
+    partner = args['[partner]'].replace(',',"")
 
     # Handle provided themes. theme_str is used for file names at the end
     themes = args['themes']
@@ -191,14 +198,15 @@ if __name__ == '__main__':
 
     # Build list of links to decks for given sites
     for site in args['sites']:
+        print("Grabbing decks from %s" % site)
         get_deck_links(site, commander, deck_links, titles, themes)
+        # Import deck list from each deck link
+        for i in range(len(deck_links)):
+            link = deck_links[i]
+            decklist_import(link, mode_deck, site)
+            decks_imported += 1
+            print("finished importing deck: %s " % titles[i])
 
-    # Import deck list from each deck link
-    for i in range(len(deck_links)):
-        link = deck_links[i]
-        decklist_import(link, mode_deck)
-        decks_imported += 1
-        print("finished importing deck: %s " % titles[i])
 
     # Sort cards into list for easy writing
     mode_deck_list = sorted(mode_deck.items(), key=lambda x:x[1], reverse=True)
