@@ -13,15 +13,16 @@ import os
 import pathlib
 
 
-def get_deck_links(site, commander, decks, titles, themes):
+def get_deck_links(site, commander, decks, titles, themes, partner=""):
     # check if site being accessed is archidekt
     if site.lower() == 'archidekt':
         # Create URL for site
         url_archidekt = 'https://archidekt.com'
         url_prefix = 'https://archidekt.com/search/decks/commanders='
         commander_url = urllib.parse.quote(commander)
+        partner_url = urlib.parse.quote(partner)
         url_suffix = '&formats=3&orderBy=-viewCount'
-        url = url_prefix + commander_url + url_suffix
+        url = url_prefix + commander_url + partner_url + url_suffix
         try:
             # Connect via requests and parse with soup
             r = requests.get(url, verify=True)
@@ -49,6 +50,10 @@ def get_deck_links(site, commander, decks, titles, themes):
         # create commander url
         commander_url = re.sub(r"[^\w\s]", '', commander)
         commander_url = (re.sub(r"\s+", '-', commander_url)).lower()
+        if partner!="":
+        	partner_url = re.sub(r"[^\w\s]", '', partner)
+        	partner_url = (re.sub(r"\s+", '-', partner_url)).lower()
+        	partner_url = "&general=" + partner_url
         # create theme url and handle weird edge cases
         url_theme = ""
         url_edge_cases = ['humans', 'weenie', 'infect', 'necropotence', 'twin']
@@ -60,7 +65,7 @@ def get_deck_links(site, commander, decks, titles, themes):
         if url_theme == '&hubs=':
             url_theme = ""
         # Create URL - url_example = 'https://tappedout.net/mtg-decks/search/?q=&format=edh&general=trostani-selesnyas-voice&price_min=&price_max=&o=-Views&submit=Filter+results'
-        url = url_prefix + commander_url + url_theme + url_suffix
+        url = url_prefix + commander_url + partner_url + url_theme + url_suffix
 
         try:
             # connect via requests
@@ -165,7 +170,7 @@ if __name__ == '__main__':
     # Create Arg Parser and add arguments
     parser = argparse.ArgumentParser(description="Magic the Gathering Commander Mode Decklist Generator\n Commander input (-c) is always required")
     parser.add_argument('-c','--commander', help='Input commander name here with quotes around it. Needs to be accurate', required=True)
-    parser.add_argument('-p','--partner', help='Input partner/companion name here with quotes around it. Needs to be accurate', required = False)
+    parser.add_argument('-p','--partner', default="", help='Input partner/companion name here with quotes around it. Needs to be accurate', required = False)
     parser.add_argument('-s','--sites', nargs='*', default=['tappedout'], help='Specific sites to use. Options currently include tappedout. Defaults to only tappedout', required=False)
     parser.add_argument('-t', '--themes', nargs='*', default=[], help='Specify which themes to use in quotes. Multiple themes should be separated by a space. Defaults to all', required=False)
     parser.add_argument('-o','--overwrite', default=True, help = 'Overwrite existing file? True/False. Defaults to True')
@@ -199,7 +204,7 @@ if __name__ == '__main__':
     # Build list of links to decks for given sites
     for site in args['sites']:
         print("Grabbing decks from %s" % site)
-        get_deck_links(site, commander, deck_links, titles, themes)
+        get_deck_links(site, commander, deck_links, titles, themes, partner)
         # Import deck list from each deck link
         for i in range(len(deck_links)):
             link = deck_links[i]
@@ -216,9 +221,11 @@ if __name__ == '__main__':
     dir_path = str(cwd)+'/Deck Lists'
     pathlib.Path(dir_path).mkdir(parents=True, exist_ok=True)
     # Write information to file
-    with open(dir_path+"/"+commander+theme_str+".csv", 'w+', newline='') as myfile:
+    with open(dir_path+"/"+commander+partner+theme_str+".csv", 'w+', newline='') as myfile:
         csv_out = csv.writer(myfile)
         csv_out.writerow(["Decks imported:", decks_imported])
+        csv_out.writerow(["Commander:", commander])
+        csv_out.writerow(["Partner:", partner])
         csv_out.writerow(["Themes Used: ", theme_str.lstrip(" ")])
         csv_out.writerow(["Basic Land", "Avg Count"])
         # Calculate basic land averages
