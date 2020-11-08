@@ -134,7 +134,7 @@ def decklist_import(input_url, decks, site = "tappedout", name=""):
             # https://archidekt.com/api/decks/<deckid>/small/
             url_prefix = "https://archidekt.com/api/decks/"
             url_suffix = "/small/"
-            url =url_prefix + url +
+            url =url_prefix + url
             options = webdriver.ChromeOptions()
             options.add_argument('--ignore-certificate-errors')
             options.add_argument('--incognito')
@@ -145,7 +145,7 @@ def decklist_import(input_url, decks, site = "tappedout", name=""):
             driver.execute_script("arguments[0].click();", export_button)
             time.sleep(1)
             page_source = driver.page_source
-            soup = BS(page_source,features='lxml')
+            soup = BS(page_source, features='lxml')
             deck_text = soup.find(id = '')
             cards = deck_text.text.split('\n')
             cards = [card[0:card.rfind('(')] for card in cards]
@@ -179,7 +179,8 @@ if __name__ == '__main__':
     # Create Commander url insert
     commander = args['commander'].replace(',',"")
     # Create Partner url insert
-    partner = args['[partner]'].replace(',',"")
+    partner = args['partner'
+    ].replace(',',"")
 
     # Handle provided themes. theme_str is used for file names at the end
     themes = args['themes']
@@ -218,10 +219,10 @@ if __name__ == '__main__':
     [print(key, value) for (key, value) in mode_deck_list]
     # Get path and make directory if one doesn't exist
     cwd = pathlib.Path.cwd()
-    dir_path = str(cwd)+'/Deck Lists'
+    dir_path = str(cwd)+'//deck_lists'
     pathlib.Path(dir_path).mkdir(parents=True, exist_ok=True)
     # Write information to file
-    with open(dir_path+"/"+commander+partner+theme_str+".csv", 'w+', newline='') as myfile:
+    with open(dir_path+"/"+(commander+'_'+partner+theme_str.rstrip())+".csv", 'w+', newline='') as myfile:
         csv_out = csv.writer(myfile)
         csv_out.writerow(["Decks imported:", decks_imported])
         csv_out.writerow(["Commander:", commander])
