@@ -50,6 +50,7 @@ def get_deck_links(site, commander, decks, titles, themes, partner=""):
         # create commander url
         commander_url = re.sub(r"[^\w\s]", '', commander)
         commander_url = (re.sub(r"\s+", '-', commander_url)).lower()
+        partner_url = ""
         if partner!="":
         	partner_url = re.sub(r"[^\w\s]", '', partner)
         	partner_url = (re.sub(r"\s+", '-', partner_url)).lower()
@@ -118,7 +119,7 @@ def decklist_import(input_url, decks, site = "tappedout", name=""):
                     # Finish parsing card count from card name and save to dictionary
                     cards_total = len(cards)
                     for card_str in cards:
-                        if card_str is not "":
+                        if card_str != "":
                             card_count, card = card_str.split(' ', 1)
                             card = card.rstrip()
                             if (card).startswith('Snow-Covered '):
@@ -154,7 +155,7 @@ def decklist_import(input_url, decks, site = "tappedout", name=""):
             else:
                 cards_total = len(cards)
                 for card_str in cards:
-                    if card_str is not "":
+                    if card_str != "":
                         card_count, card = card_str.split(' ', 1)
                         card = card.rstrip()
                         if (card).startswith('Snow-Covered '):
@@ -178,6 +179,7 @@ if __name__ == '__main__':
 
     # Create Commander url insert
     commander = args['commander'].replace(',',"")
+    print("Commander: %s" % commander)
     # Create Partner url insert
     partner = args['partner'
     ].replace(',',"")
@@ -222,7 +224,7 @@ if __name__ == '__main__':
     dir_path = str(cwd)+'//deck_lists'
     pathlib.Path(dir_path).mkdir(parents=True, exist_ok=True)
     # Write information to file
-    with open(dir_path+"/"+(commander+'_'+partner+theme_str.rstrip())+".csv", 'w+', newline='') as myfile:
+    with open(dir_path+"/"+(commander+'_'+partner+theme_str.rstrip())+".csv", 'w+', newline='', encoding ='utf-8') as myfile:
         csv_out = csv.writer(myfile)
         csv_out.writerow(["Decks imported:", decks_imported])
         csv_out.writerow(["Commander:", commander])
